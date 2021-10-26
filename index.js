@@ -46,7 +46,9 @@ const argv = program.opts();
         break;
 
       case "remove":
-        // ... id
+        const removeById = await removeContact(id);
+        console.log(chalk.grey("Contact is removed"));
+        console.log(removeById);
         break;
 
       default:

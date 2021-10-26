@@ -9,7 +9,9 @@ const readContacts = async () => {
   );
   return JSON.parse(result);
 };
-const contactsPath = "db/contacts.json";
+const contactsPath = path.join(__dirname, "db/contacts.json");
+
+// const numId = Number(id);
 
 const listContacts = async () => {
   return await readContacts();
@@ -21,9 +23,16 @@ const getContactById = async (contactId) => {
   return result;
 };
 
-function removeContact(contactId) {
-  // ...твой код
-}
+const removeContact = async (contactId) => {
+  const contacts = await readContacts();
+  const [result] = contacts.filter(
+    (contact) => contact.Number(id) === contactId
+  );
+  if ((result = -1)) {
+    return null;
+  }
+  return contacts.splice(result, 1);
+};
 
 const addContact = async (name, email, phone) => {
   const contacts = await readContacts();

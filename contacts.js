@@ -1,23 +1,36 @@
 const fs = require("fs/promises");
 const path = require("path");
+const crypto = require("crypto");
 
-const contactsPath = "../db/contacts.json";
-console.log(contactsPath);
+const readContacts = async () => {
+  const result = await fs.readFile(
+    path.join(__dirname, "db/contacts.json"),
+    "utf8"
+  );
+  return JSON.parse(result);
+};
+const contactsPath = "db/contacts.json";
 
-function listContacts() {
-  // ...твой код
-}
+const listContacts = async () => {
+  return await readContacts();
+};
 
-function getContactById(contactId) {
-  // ...твой код
-}
+const getContactById = async (contactId) => {
+  const contacts = await readContacts();
+  const [result] = contacts.filter((contact) => contact.id === contactId);
+  return result;
+};
 
 function removeContact(contactId) {
   // ...твой код
 }
 
-function addContact(name, email, phone) {
-  // ...твой код
-}
+const addContact = async (name, email, phone) => {
+  const contacts = await readContacts();
+  const newContact = { id: crypto.randomUUID(), name, email, phone };
+  contacts.push(newContact);
+  await fs.writeFile(contactsPath, JSON.stringify(contacts, null, 11));
+  return newContact;
+};
 
 module.exports = { listContacts, getContactById, removeContact, addContact };

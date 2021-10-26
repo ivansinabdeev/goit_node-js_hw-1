@@ -1,6 +1,13 @@
+// const argv = require("yargs").argv;
 const { Command } = require("commander");
 const chalk = require("chalk");
-const { listContacts } = require("./contacts");
+
+const {
+  listContacts,
+  addContact,
+  getContactById,
+  removeContact,
+} = require("./contacts.js");
 
 const program = new Command();
 program
@@ -14,21 +21,28 @@ program.parse(process.argv);
 
 const argv = program.opts();
 
-// TODO: рефакторить
 (async ({ action, id, name, email, phone }) => {
   try {
     switch (action) {
       case "list":
         const contacts = await listContacts();
-        console.log(contacts);
+        console.table(contacts);
         break;
 
       case "get":
-        // ... id
+        const contactById = await getContactById(id);
+        if (contactById) {
+          console.log(chalk.green("Contact found"));
+          console.log(contactById);
+        } else {
+          console.log(chalk.yellow("Contact not found"));
+        }
         break;
 
       case "add":
-        // ... name email phone
+        const contact = await addContact(name, email, phone);
+        console.log(chalk.green("Add new contact"));
+        console.log(contact);
         break;
 
       case "remove":

@@ -25,13 +25,13 @@ const getContactById = async (contactId) => {
 
 const removeContact = async (contactId) => {
   const contacts = await readContacts();
-  const [result] = contacts.filter(
-    (contact) => contact.Number(id) === contactId
-  );
-  if ((result = -1)) {
+  const idx = contacts.findIndex((contact) => contact.id === contactId);
+  if (idx === -1) {
     return null;
   }
-  return contacts.splice(result, 1);
+  const removeContact = contacts.splice(idx, 1);
+  await fs.writeFile(contactsPath, JSON.stringify(contacts));
+  return removeContact;
 };
 
 const addContact = async (name, email, phone) => {

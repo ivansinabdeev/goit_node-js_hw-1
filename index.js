@@ -1,4 +1,3 @@
-// const argv = require("yargs").argv;
 const { Command } = require("commander");
 const chalk = require("chalk");
 

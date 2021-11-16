@@ -25,7 +25,7 @@ const removeContact = async (contactId) => {
   const idx = contacts.findIndex(
     (contact) => String(contact.id) === String(contactId)
   );
-  if (!idx) {
+  if (idx === -1) {
     return null;
   }
   const removeContact = contacts.splice(idx, 1);

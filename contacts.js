@@ -34,6 +34,9 @@ const removeContact = async (contactId) => {
 };
 
 const addContact = async (name, email, phone) => {
+  if (!name && !email && !phone) {
+    return null
+  }
   const contacts = await listContacts();
   const newContact = { id: crypto.randomUUID(), name, email, phone };
   contacts.push(newContact);
